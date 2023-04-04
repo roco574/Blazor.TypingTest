@@ -1,0 +1,118 @@
+﻿@page "/typing-test-v1"
+
+<h1>Typing Test</h1>
+
+<div>
+    <p>@highlightedText</p>
+</div>
+
+<div>
+    <input @bind-value="typedText" @oninput="CheckTypedText" />
+</div>
+
+<div>
+    <button @onclick="StartTest">Start Test</button>
+    <button @onclick="StopTest">Stop Test</button>
+</div>
+
+<div>
+    <p>Time remaining: @timeRemaining seconds</p>
+    <p>Words per minute: @wordsPerMinute</p>
+</div>
+
+@code {
+    private string[] dictionary = { "apple", "banana", "cherry", "durian", "elderberry", "fig", "grape", "honeydew", "kiwi", "lemon" };
+    private string highlightedText = "";
+    private string typedText = "";
+    private int currentIndex { get; set; }
+    private int correctCount { get; set; }
+    private int incorrectCount { get; set; }
+    private int timeRemaining { get; set; }
+    private int wordsPerMinute { get; set; }
+    private System.Timers.Timer timer;
+
+    protected override void OnInitialized()
+    {
+        dictionary = Shuffle(dictionary);
+    }
+
+    private void StartTest()
+    {
+        highlightedText = dictionary[currentIndex];
+        typedText = "";
+        correctCount = 0;
+        incorrectCount = 0;
+        timeRemaining = 10;
+        wordsPerMinute = 0;
+
+        timer = new System.Timers.Timer();
+        timer.Interval = 1000;
+        timer.Elapsed += DecrementTimeRemaining;
+        timer.Start();
+    }
+
+    private void StopTest()
+    {
+        timer.Stop();
+    }
+
+    private void DecrementTimeRemaining(object sender, System.Timers.ElapsedEventArgs e)
+    {
+        timeRemaining--;
+        if (timeRemaining == 0)
+        {
+            timer.Stop();
+            CalculateWordsPerMinute();
+        }
+        else
+        {
+            StateHasChanged();
+        }
+    }
+
+    private void CalculateWordsPerMinute()
+    {
+        int totalCount = correctCount + incorrectCount;
+        double accuracy = (double)correctCount / totalCount;
+        wordsPerMinute = (int)(accuracy * 60);
+    }
+
+    private string[] Shuffle(string[] array)
+    {
+        Random random = new Random();
+        int n = array.Length;
+        while (n > 1)
+        {
+            n--;
+            int k = random.Next(n + 1);
+            string value = array[k];
+            array[k] = array[n];
+            array[n] = value;
+        }
+        return array;
+    }
+
+    private void CheckTypedText(ChangeEventArgs e)
+    {
+        typedText = (string)e.Value;
+
+        if (typedText == highlightedText)
+        {
+            correctCount++;
+            currentIndex++;
+            if (currentIndex == dictionary.Length)
+            {
+                currentIndex = 0;
+                dictionary = Shuffle(dictionary);
+            }
+            highlightedText = dictionary[currentIndex];
+            typedText = "";
+        }
+        else
+        {
+            incorrectCount++;
+        }
+
+        StateHasChanged();
+    }
+}
