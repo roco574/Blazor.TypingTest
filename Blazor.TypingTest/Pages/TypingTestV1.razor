@@ -1,39 +1,45 @@
 ﻿@page "/typing-test-v1"
 
-<h1>Typing Test</h1>
+@using Blazor.TypingTest.Helpers
 
-<div>
-    <p>@highlightedText</p>
+<h1 style="font-family: 'Roboto', sans-serif; font-weight: 400; font-size: 2rem;">Typing Test</h1>
+
+<div class="upcoming-words">
+    @foreach (var word in dictionary.Skip(currentIndex).Take(10))
+    {
+        <span class="upcoming-word @(highlightedText == word ? "current" : "")">@word</span>
+    }
 </div>
 
-<div>
-    <input @bind-value="typedText" @oninput="CheckTypedText" />
+<div style="padding-bottom: 2rem;">
+    <input style="font-family: 'Roboto', sans-serif; font-size: 1.5rem; padding: 0.5rem 1rem; border: 2px solid #ddd; border-radius: 4px; outline: none;" @bind-value="typedText" @oninput="CheckTypedText" />
 </div>
 
-<div>
-    <button @onclick="StartTest">Start Test</button>
-    <button @onclick="StopTest">Stop Test</button>
+<div style="padding-bottom: 2rem;">
+    <button style="background-color: #2196f3; color: #fff; font-family: 'Roboto', sans-serif; font-size: 1.2rem; font-weight: 500; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; margin-right: 1rem;" @onclick="StartTest">Start Test</button>
+    <button style="background-color: #f44336; color: #fff; font-family: 'Roboto', sans-serif; font-size: 1.2rem; font-weight: 500; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer;" @onclick="StopTest">Stop Test</button>
 </div>
 
-<div>
-    <p>Time remaining: @timeRemaining seconds</p>
-    <p>Words per minute: @wordsPerMinute</p>
+<div style="font-family: 'Roboto', sans-serif; font-size: 1.2rem; font-weight: 300; padding-bottom: 2rem;">
+    <p>Time remaining: <span style="font-weight: 500; color: #2196f3;">@timeRemaining</span> seconds</p>
+    <p>Words per minute: <span style="font-weight: 500; color: #4caf50;">@wordsPerMinute</span></p>
 </div>
 
 @code {
-    private string[] dictionary = { "apple", "banana", "cherry", "durian", "elderberry", "fig", "grape", "honeydew", "kiwi", "lemon" };
+    private List<string> dictionary { get; set; }
     private string highlightedText = "";
     private string typedText = "";
     private int currentIndex { get; set; }
     private int correctCount { get; set; }
     private int incorrectCount { get; set; }
+    private int duration { get; set; }
     private int timeRemaining { get; set; }
     private int wordsPerMinute { get; set; }
-    private System.Timers.Timer timer;
+    private System.Timers.Timer timer { get; set; }
 
     protected override void OnInitialized()
     {
-        dictionary = Shuffle(dictionary);
+        dictionary = DictionaryHelper.Shuffle(DictionaryHelper.ComplexWords);
     }
 
     private void StartTest()
@@ -42,7 +48,7 @@
         typedText = "";
         correctCount = 0;
         incorrectCount = 0;
-        timeRemaining = 10;
+        timeRemaining = duration = 60;
         wordsPerMinute = 0;
 
         timer = new System.Timers.Timer();
@@ -54,6 +60,7 @@
     private void StopTest()
     {
         timer.Stop();
+        timeRemaining = 0;
     }
 
     private void DecrementTimeRemaining(object sender, System.Timers.ElapsedEventArgs e)
@@ -72,47 +79,62 @@
 
     private void CalculateWordsPerMinute()
     {
-        int totalCount = correctCount + incorrectCount;
-        double accuracy = (double)correctCount / totalCount;
-        wordsPerMinute = (int)(accuracy * 60);
-    }
-
-    private string[] Shuffle(string[] array)
-    {
-        Random random = new Random();
-        int n = array.Length;
-        while (n > 1)
-        {
-            n--;
-            int k = random.Next(n + 1);
-            string value = array[k];
-            array[k] = array[n];
-            array[n] = value;
-        }
-        return array;
+        int totalWords = correctCount + incorrectCount;
+        double accuracy = (double)correctCount / totalWords;
+        double timeFactor = (double)timeRemaining / duration;
+        double timeAdjustment = 1 / (1 - timeFactor);
+        wordsPerMinute = (int)Math.Round((accuracy * totalWords * timeAdjustment) / duration * 60);
     }
 
     private void CheckTypedText(ChangeEventArgs e)
     {
-        typedText = (string)e.Value;
-
-        if (typedText == highlightedText)
+        if (timeRemaining > 0)
         {
-            correctCount++;
-            currentIndex++;
-            if (currentIndex == dictionary.Length)
+            typedText = e.Value.ToString();
+
+            if (typedText == highlightedText)
             {
-                currentIndex = 0;
-                dictionary = Shuffle(dictionary);
-            }
-            highlightedText = dictionary[currentIndex];
-            typedText = "";
-        }
-        else
-        {
-            incorrectCount++;
-        }
+                correctCount++;
+                currentIndex++;
+                if (currentIndex == dictionary.Count)
+                {
+                    currentIndex = 0;
+                    dictionary = DictionaryHelper.Shuffle(DictionaryHelper.ComplexWords);
+                }
+                highlightedText = dictionary[currentIndex];
+                typedText = "";
 
-        StateHasChanged();
+                CalculateWordsPerMinute();
+            }
+            else
+            {
+                incorrectCount++;
+            }
+
+            StateHasChanged();
+        }
     }
 }
+
+<style>
+    .upcoming-words {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .upcoming-word {
+        font-size: 18px;
+        margin-right: 10px;
+        color: #888;
+    }
+
+        .upcoming-word.current {
+            color: #000;
+            font-weight: bold;
+        }
+</style>

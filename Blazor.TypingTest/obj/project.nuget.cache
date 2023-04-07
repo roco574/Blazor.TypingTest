@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oduX6JULQipIGrnRBk9CSUjDtkHH9iEVJxxEhiUprA8cQA/Uu6EUVmDsV2xJOFkaL2zwEiLbcty0la9TRpf5fw==",
+  "dgSpecHash": "R4r21988kApX8rJpteMDi+v8by62BP4tdWOZsDNFwVH1+/HaNOyIVQaRvjfmnJ78zNhsQxTPEYEnKrm68Q8Uuw==",
   "success": true,
   "projectFilePath": "/Users/robert/Developer/Blazor.TypingTest/Blazor.TypingTest/Blazor.TypingTest.csproj",
   "expectedPackageFiles": [
@@ -31,7 +31,7 @@
     "/Users/robert/.nuget/packages/system.io.pipelines/7.0.0/system.io.pipelines.7.0.0.nupkg.sha512",
     "/Users/robert/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/Users/robert/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512",
-    "/Users/robert/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/7.0.3/microsoft.netcore.app.runtime.mono.browser-wasm.7.0.3.nupkg.sha512"
+    "/Users/robert/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/7.0.4/microsoft.netcore.app.runtime.mono.browser-wasm.7.0.4.nupkg.sha512"
   ],
   "logs": []
 }

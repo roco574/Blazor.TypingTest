@@ -1,4 +1,18 @@
-﻿<Properties StartupConfiguration="{91398C9C-401F-42F4-94F1-589D1F0BA3F0}|https">
-  <MonoDevelop.Ide.ItemProperties.Blazor.TypingTest FirstBuild="True" />
+﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{91398C9C-401F-42F4-94F1-589D1F0BA3F0}|https">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints />
+  <MonoDevelop.Ide.ItemProperties.Blazor.TypingTest PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Blazor.TypingTest" expanded="True" selected="True">
+            <Node name="Blazor.TypingTest" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
