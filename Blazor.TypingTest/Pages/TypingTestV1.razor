@@ -23,6 +23,7 @@
 <div style="font-family: 'Roboto', sans-serif; font-size: 1.2rem; font-weight: 300; padding-bottom: 2rem;">
     <p>Time remaining: <span style="font-weight: 500; color: #2196f3;">@timeRemaining</span> seconds</p>
     <p>Words per minute: <span style="font-weight: 500; color: #4caf50;">@wordsPerMinute</span></p>
+    <p>Accuracy: <span style="font-weight: 500; color: #4caf50;">@accuracy.ToString("0.0") %</span></p>
 </div>
 
 @code {
@@ -35,6 +36,7 @@
     private int duration { get; set; }
     private int timeRemaining { get; set; }
     private int wordsPerMinute { get; set; }
+    private double accuracy { get; set; }
     private System.Timers.Timer timer { get; set; }
 
     protected override void OnInitialized()
@@ -44,12 +46,16 @@
 
     private void StartTest()
     {
+        if (currentIndex != 0)
+            dictionary = DictionaryHelper.Shuffle(DictionaryHelper.ComplexWords);
+
         highlightedText = dictionary[currentIndex];
         typedText = "";
+        timeRemaining = duration = 60;
         correctCount = 0;
         incorrectCount = 0;
-        timeRemaining = duration = 60;
         wordsPerMinute = 0;
+        accuracy = 0;
 
         timer = new System.Timers.Timer();
         timer.Interval = 1000;
@@ -86,35 +92,53 @@
         wordsPerMinute = (int)Math.Round((accuracy * totalWords * timeAdjustment) / duration * 60);
     }
 
+    private void CalculateAccuracy()
+    {
+        var totalCount = correctCount + incorrectCount;
+
+        accuracy = totalCount != 0
+            ? ((double)correctCount / totalCount) * 100
+            : 0;
+    }
+
     private void CheckTypedText(ChangeEventArgs e)
     {
-        if (timeRemaining > 0)
+        if (timeRemaining == 0)
+            return;
+        else if (timer is null || !timer.Enabled)
+            StartTest();
+
+        typedText = e.Value.ToString();
+
+        if (typedText.Length == highlightedText.Length)
         {
-            typedText = e.Value.ToString();
-
             if (typedText == highlightedText)
-            {
                 correctCount++;
-                currentIndex++;
-                if (currentIndex == dictionary.Count)
-                {
-                    currentIndex = 0;
-                    dictionary = DictionaryHelper.Shuffle(DictionaryHelper.ComplexWords);
-                }
-                highlightedText = dictionary[currentIndex];
-                typedText = "";
-
-                CalculateWordsPerMinute();
-            }
             else
-            {
                 incorrectCount++;
-            }
 
-            StateHasChanged();
+            GetNextWord();
+            CalculateWordsPerMinute();
+            CalculateAccuracy();
+            CalculateAccuracy();
         }
+
+        StateHasChanged();
+    }
+
+    private void GetNextWord()
+    {
+        currentIndex++;
+        if (currentIndex == dictionary.Count)
+        {
+            currentIndex = 0;
+            dictionary = DictionaryHelper.Shuffle(DictionaryHelper.ComplexWords);
+        }
+        highlightedText = dictionary[currentIndex];
+        typedText = "";
     }
 }
+
 
 <style>
     .upcoming-words {
@@ -133,8 +157,8 @@
         color: #888;
     }
 
-        .upcoming-word.current {
-            color: #000;
-            font-weight: bold;
-        }
+    .upcoming-word.current {
+        color: #000;
+        font-weight: bold;
+    }
 </style>
