@@ -1,7 +1,6 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{91398C9C-401F-42F4-94F1-589D1F0BA3F0}|https">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints />
+﻿<Properties StartupConfiguration="{91398C9C-401F-42F4-94F1-589D1F0BA3F0}|https" GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.ItemProperties.Blazor.TypingTest PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,6 +12,9 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>
