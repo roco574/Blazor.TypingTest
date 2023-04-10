@@ -1,20 +1,30 @@
-﻿<Properties StartupConfiguration="{91398C9C-401F-42F4-94F1-589D1F0BA3F0}|https" GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.ItemProperties.Blazor.TypingTest PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench>
+﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{91398C9C-401F-42F4-94F1-589D1F0BA3F0}|https">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Blazor.TypingTest/Pages/TypingTestV1.razor">
+    <Files>
+      <File FileName="Blazor.TypingTest/Blazor.TypingTest.csproj" Line="18" Column="119" />
+      <File FileName="Blazor.TypingTest/Pages/TypingTestV1.razor" Line="18" Column="19" />
+      <File FileName="../../.nuget/packages/bootstrap/5.2.3/contentFiles/any/any/wwwroot/css/bootstrap.css" Line="1" Column="1" />
+      <File FileName="../../.nuget/packages/libsasshost/1.3.3/readme.txt" Line="35" Column="42" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Blazor.TypingTest" expanded="True" selected="True">
-            <Node name="Blazor.TypingTest" expanded="True" />
+            <Node name="Blazor.TypingTest" expanded="True">
+              <Node name="Dependencies" expanded="True" />
+              <Node name="Pages" expanded="True" />
+              <Node name="wwwroot" expanded="True" />
+            </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Blazor.TypingTest PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
